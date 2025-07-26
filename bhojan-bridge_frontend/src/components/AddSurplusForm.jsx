@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // ✅ Import this
+import { useNavigate } from "react-router-dom";
 import axios from "../api/axios";
 
 export default function AddSurplusForm() {
-  const navigate = useNavigate(); // ✅ Initialize hook
+  const navigate = useNavigate();
 
   const [form, setForm] = useState({
     item_name: "",
@@ -11,6 +11,7 @@ export default function AddSurplusForm() {
     unit: "kg",
     description: "",
     is_donated: false,
+    price: "", // ➕ Added price
   });
 
   const [loading, setLoading] = useState(false);
@@ -31,11 +32,17 @@ export default function AddSurplusForm() {
 
     try {
       const token = localStorage.getItem("access_token");
-      await axios.post("api/surplus/", form, {
+
+      // If item is donated, set price to 0
+      const dataToSend = {
+        ...form,
+        price: form.is_donated ? 0 : parseFloat(form.price || 0),
+      };
+
+      await axios.post("api/surplus/", dataToSend, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      // ✅ Navigate to surplus list after success
       navigate("/surplus");
     } catch (err) {
       alert("Error adding item");
@@ -95,6 +102,18 @@ export default function AddSurplusForm() {
           rows="3"
           className="w-full border px-4 py-3 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-300"
         />
+
+        {!form.is_donated && (
+          <input
+            type="number"
+            name="price"
+            placeholder="Enter price in ₹"
+            value={form.price}
+            onChange={handleChange}
+            className="w-full border px-4 py-3 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-300"
+            min="0"
+          />
+        )}
 
         <label className="inline-flex items-center">
           <input

@@ -38,6 +38,9 @@ const Navbar = () => {
           <NavLink to="/surplus/add" className={linkStyle}>
             Share Surplus
           </NavLink>
+          <NavLink to="/profile" className={linkStyle}>
+            Profile
+          </NavLink>
           <button onClick={handleLogout} className={linkStyle}>
             Logout
           </button>

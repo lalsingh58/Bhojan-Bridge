@@ -6,6 +6,8 @@ import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import AddSurplusForm from "./components/AddSurplusForm";
 import SurplusList from "./pages/SurplusList";
+import Profile from "./pages/Profile";
+import ClaimPage from "./pages/ClaimPage";
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/surplus/add" element={<AddSurplusForm />} />
         <Route path="/surplus" element={<SurplusList />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/surplus/claim/:id" element={<ClaimPage />} />
       </Routes>
     </>
   );

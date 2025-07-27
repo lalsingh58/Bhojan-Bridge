@@ -10,7 +10,7 @@ const Home = () => {
           insights, and grow together.
         </p>
         <button className="mt-6 bg-green-600 text-white px-6 py-3 rounded-xl hover:bg-green-700 transition duration-300 shadow-lg animate-wiggle">
-          Explore Features
+          <a href="/surplus/add">Share surplus</a>
         </button>
       </div>
     </div>

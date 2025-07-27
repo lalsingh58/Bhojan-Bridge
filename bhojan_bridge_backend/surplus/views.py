@@ -1,14 +1,12 @@
-# surplus/views.py
-
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status, permissions
 from .models import SurplusItem
 from .serializers import SurplusItemSerializer
 from django.contrib.auth import get_user_model
+from notifications.models import Notification  # Make sure this exists
 
 User = get_user_model()
-
 
 @api_view(['GET', 'POST'])
 @permission_classes([permissions.IsAuthenticated])
@@ -83,8 +81,16 @@ def claim_surplus(request, pk):
     if item.is_claimed:
         return Response({'error': 'Item already claimed'}, status=status.HTTP_400_BAD_REQUEST)
 
+    # ✅ Mark the item as claimed and assign claimed_by
     item.is_claimed = True
+    item.claimed_by = request.user
     item.save()
+
+    # ✅ Create a notification for the original owner
+    Notification.objects.create(
+        user=item.user,  # the original donor
+        message=f"Your item '{item.item_name}' was claimed by {request.user.username}."
+    )
 
     return Response({'message': 'Item successfully claimed'}, status=status.HTTP_200_OK)
 

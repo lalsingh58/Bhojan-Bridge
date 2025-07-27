@@ -6,7 +6,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation(); // ✅ detect route changes
+  const location = useLocation();
 
   const linkStyle =
     "block py-2 px-4 rounded hover:bg-green-100 hover:text-green-700 transition";
@@ -15,7 +15,7 @@ const Navbar = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("access_token");
-    setIsLoggedIn(!!token); // ✅ Update on every route change
+    setIsLoggedIn(!!token);
   }, [location]);
 
   const handleLogout = () => {
@@ -37,6 +37,9 @@ const Navbar = () => {
           </NavLink>
           <NavLink to="/surplus/add" className={linkStyle}>
             Share Surplus
+          </NavLink>
+          <NavLink to="/notifications" className={linkStyle}>
+            🔔 Notifications
           </NavLink>
           <NavLink to="/profile" className={linkStyle}>
             Profile
